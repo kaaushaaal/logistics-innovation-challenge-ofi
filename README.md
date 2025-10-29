@@ -42,6 +42,7 @@ All powered by:
 
 ## 🧱 Project Architecture
 
+```bash
 ofi_case_study/
 ├── app.py                     # Streamlit main dashboard
 ├── data/                      # Raw CSV data files
@@ -60,7 +61,7 @@ ofi_case_study/
 ├── requirements.txt           # Python dependencies
 ├── README.md                  # Full documentation and usage guide
 └── .gitignore                 # Ignored files (venv, cache, etc.)
-
+```
 
 ### Why this design?
 ✅ Clean separation of logic  
