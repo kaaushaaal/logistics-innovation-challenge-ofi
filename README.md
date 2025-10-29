@@ -43,23 +43,24 @@ All powered by:
 ## 🧱 Project Architecture
 
 ofi_case_study/
-├── app.py # Streamlit main dashboard
-├── data/ # Raw CSV data files
-│ ├── orders.csv
-│ ├── delivery_performance.csv
-│ ├── routes_distance.csv
-│ ├── vehicle_fleet.csv
-│ └── ...
-├── modules/
-│ ├── data_loader.py # Reads all CSVs
-│ ├── feature_engineering.py # Cleans, merges, encodes data
-│ ├── model_utils.py # ML model training & prediction
-│ └── route_utils.py # Route scoring & vehicle assignment
-├── requirements.txt
-└── README.md
+├── app.py                     # Streamlit main dashboard
+├── data/                      # Raw CSV data files
+│   ├── orders.csv
+│   ├── delivery_performance.csv
+│   ├── routes_distance.csv
+│   ├── vehicle_fleet.csv
+│   ├── cost_breakdown.csv
+│   ├── warehouse_inventory.csv
+│   └── customer_feedback.csv
+├── modules/                   # Core logic modules
+│   ├── data_loader.py         # Reads all CSVs and returns pandas DataFrames
+│   ├── feature_engineering.py # Cleans, merges, and encodes data
+│   ├── model_utils.py         # Trains and evaluates ML models
+│   └── route_utils.py         # Route scoring and vehicle assignment logic
+├── requirements.txt           # Python dependencies
+├── README.md                  # Full documentation and usage guide
+└── .gitignore                 # Ignored files (venv, cache, etc.)
 
-yaml
-Copy code
 
 ### Why this design?
 ✅ Clean separation of logic  
@@ -141,9 +142,6 @@ Each route is scored using a **weighted heuristic**:
 
 score = α * time_norm + β * cost_norm + γ * emission_norm
 
-pgsql
-Copy code
-
 | Parameter | Description | Default Weight |
 |------------|-------------|----------------|
 | α | Delivery time factor | 0.6 |
@@ -158,9 +156,6 @@ Copy code
 | Emissions (kg) | 12 | 0.24 |
 
 score = 0.60.75 + 0.30.3 + 0.1*0.24 = 0.564
-
-yaml
-Copy code
 
 → Lower score = better route.
 
@@ -250,14 +245,9 @@ Copy code
 order_id,priority,product_category,origin,destination,order_value_inr
 101,Express,Electronics,Mumbai,Delhi,15000
 
-Copy code
-
 **delivery_performance.csv**
 order_id,promised_delivery_days,actual_delivery_days,delivery_cost_inr
 101,2,3,450
-
-markdown
-Copy code
 
 **Resulting Derived Columns**
 | order_id | delay_days | delay_flag | priority_enc | product_cat_enc |
@@ -266,9 +256,6 @@ Copy code
 
 **Predicted Output**
 predicted_delay = 1 (High Risk)
-
-yaml
-Copy code
 
 **Route Planner**
 | Distance | Cost | Score | Recommended Vehicle |
@@ -292,6 +279,7 @@ bash
 Copy code
 streamlit run app.py
 Open your browser → http://localhost:8501
+```
 
 👤 Author
 Kaushal Shukla
